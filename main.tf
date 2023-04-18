@@ -88,7 +88,7 @@ resource "azurerm_storage_encryption_scope" "scope" {
 
 
 resource "azurerm_storage_container" "container" {
-  name                  = var.container_name
+  name                  = (var.name == null ? random_string.random.result : var.container_name)
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = var.container_access_type
 }

@@ -9,6 +9,11 @@ output "name" {
   description = "The name of the Storage Account."
 }
 
+output "container_name" {
+  value       = azurerm_storage_container.container.name
+  description = "The name of the Storage Account container."
+}
+
 output "id" {
   value       = azurerm_storage_account.sa.id
   description = "The ID of the Storage Account."
