@@ -7,15 +7,13 @@ variable "name" {
 variable "container_name" {
   description = "Storage account name"
   type        = string
-  default     = demo
 }
 
 variable "container_access_type" {
   description = "container access type"
   type        = string
-  default     = private
+  default     = "private"
 }
-
 
 variable "location" {
   description = "Specifies the supported Azure location to MySQL server resource"
