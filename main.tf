@@ -76,16 +76,6 @@ resource "azurerm_storage_account" "sa" {
   }
 }
 
-## azure reference https://docs.microsoft.com/en-us/azure/storage/common/infrastructure-encryption-enable?tabs=portal
-resource "azurerm_storage_encryption_scope" "scope" {
-  for_each = var.encryption_scopes
-
-  name                               = each.key
-  storage_account_id                 = azurerm_storage_account.sa.id
-  source                             = coalesce(each.value.source, "Microsoft.Storage")
-  infrastructure_encryption_required = coalesce(each.value.enable_infrastructure_encryption, var.infrastructure_encryption_enabled)
-}
-
 
 resource "azurerm_storage_container" "container" {
   name                  = (var.name == null ? random_string.random.result : var.container_name)
