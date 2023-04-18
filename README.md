@@ -1,5 +1,3 @@
-# demo-storage-account-module
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -26,7 +24,6 @@ No modules.
 |------|------|
 | [azurerm_storage_account.sa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_container.container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
-| [azurerm_storage_encryption_scope.scope](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_encryption_scope) | resource |
 | [random_string.random](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 
 ## Inputs
@@ -51,7 +48,6 @@ No modules.
 | <a name="input_enable_large_file_share"></a> [enable\_large\_file\_share](#input\_enable\_large\_file\_share) | Enable Large File Share. | `bool` | `false` | no |
 | <a name="input_enable_sftp"></a> [enable\_sftp](#input\_enable\_sftp) | Enable SFTP for storage account (enable\_hns must be set to true for this to work). | `bool` | `false` | no |
 | <a name="input_enable_static_website"></a> [enable\_static\_website](#input\_enable\_static\_website) | Controls if static website to be enabled on the storage account. Possible values are `true` or `false` | `bool` | `false` | no |
-| <a name="input_encryption_scopes"></a> [encryption\_scopes](#input\_encryption\_scopes) | Encryption scopes, keys are scope names. more info https://docs.microsoft.com/en-us/azure/storage/common/infrastructure-encryption-enable?tabs=portal | <pre>map(object({<br>    enable_infrastructure_encryption = optional(bool)<br>    source                           = optional(string)<br>  }))</pre> | `{}` | no |
 | <a name="input_index_path"></a> [index\_path](#input\_index\_path) | path from your repo root to index.html | `string` | `null` | no |
 | <a name="input_infrastructure_encryption_enabled"></a> [infrastructure\_encryption\_enabled](#input\_infrastructure\_encryption\_enabled) | Is infrastructure encryption enabled? Changing this forces a new resource to be created. | `bool` | `true` | no |
 | <a name="input_location"></a> [location](#input\_location) | Specifies the supported Azure location to MySQL server resource | `string` | n/a | yes |
@@ -70,7 +66,6 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_container_name"></a> [container\_name](#output\_container\_name) | The name of the Storage Account container. |
-| <a name="output_encryption_scope_ids"></a> [encryption\_scope\_ids](#output\_encryption\_scope\_ids) | encryption scope info. |
 | <a name="output_id"></a> [id](#output\_id) | The ID of the Storage Account. |
 | <a name="output_name"></a> [name](#output\_name) | The name of the Storage Account. |
 | <a name="output_primary_access_key"></a> [primary\_access\_key](#output\_primary\_access\_key) | The primary access key for the storage account. |
