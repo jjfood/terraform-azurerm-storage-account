@@ -23,6 +23,7 @@ resource "azurerm_storage_account" "sa" {
   nfsv3_enabled                     = var.nfsv3_enabled
   infrastructure_encryption_enabled = var.infrastructure_encryption_enabled
   shared_access_key_enabled         = var.shared_access_key_enabled
+  public_network_access_enabled     = var.private_endpoint_subnet_id == null ? true : false
 
   identity {
     type = "SystemAssigned"
@@ -68,11 +69,17 @@ resource "azurerm_storage_account" "sa" {
     }
   }
 
-  network_rules {
-    default_action             = var.default_network_rule
-    ip_rules                   = values(var.access_list)
-    virtual_network_subnet_ids = values(var.service_endpoints)
-    bypass                     = var.traffic_bypass
+#  network_rules {
+#    default_action             = var.default_network_rule
+#    ip_rules                   = values(var.access_list)
+#    virtual_network_subnet_ids = values(var.service_endpoints)
+#    bypass                     = var.traffic_bypass
+#  }
+  dynamic "network_rules" {
+    for_each = var.private_endpoint_subnet_id == null ? [] : [1]
+    content {
+      default_action = "Deny"
+    }
   }
 }
 
@@ -81,4 +88,29 @@ resource "azurerm_storage_container" "container" {
   name                  = (var.name == null ? random_string.random.result : var.container_name)
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = var.container_access_type
+}
+
+resource "azurerm_private_endpoint" "state" {
+#  count               = var.bootstrap_mode == "true" ? 0 : 1
+  name                = "pend-${azurerm_storage_account.sa.name}"
+  resource_group_name = azurerm_storage_account.sa.resource_group_name
+  location            = var.resource_group_name
+  subnet_id           = var.private_endpoint_subnet_id
+
+  private_service_connection {
+    name                           = azurerm_storage_account.sa.name
+    private_connection_resource_id = azurerm_storage_account.sa.id
+    is_manual_connection           = false
+
+    subresource_names = ["blob"]
+  }
+
+  tags = var.tags
+
+  lifecycle {
+    ignore_changes = [
+      # DNS is configured via Azure Policy, so we don't want to fiddle with it
+      private_dns_zone_group
+    ]
+  }
 }

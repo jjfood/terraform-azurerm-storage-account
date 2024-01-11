@@ -108,6 +108,12 @@ variable "service_endpoints" {
   default     = {}
 }
 
+variable "private_endpoint_subnet_id" {
+  type        = string
+  description = "Subnet id for the private endpoint."
+  default     = null
+}
+
 variable "traffic_bypass" {
   description = "Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None."
   type        = list(string)
