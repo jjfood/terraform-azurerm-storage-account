@@ -4,10 +4,30 @@ resource "random_string" "random" {
   upper   = false
 }
 
+resource "azurecaf_name" "rg" {
+  name          = "${var.name}-state"
+  resource_type = "azurerm_resource_group"
+  suffixes      = [lower(var.environment)]
+  random_length = 4
+}
+
+resource "azurerm_resource_group" "state" {
+  name     = azurecaf_name.rg.result
+  location = var.location
+  tags     = var.tags
+}
+
+resource "azurecaf_name" "storage" {
+  name          = "${var.name}state"
+  resource_type = "azurerm_storage_account"
+  suffixes      = [lower(var.environment)]
+  random_length = 4
+}
+
 resource "azurerm_storage_account" "sa" {
-  name                     = (var.name == null ? random_string.random.result : var.name)
-  resource_group_name      = var.resource_group_name
-  location                 = var.location
+  name                     = azurecaf_name.storage.result
+  resource_group_name      = azurerm_resource_group.state.name
+  location                 = azurerm_resource_group.state.location
   account_kind             = var.account_kind
   account_tier             = local.account_tier
   account_replication_type = var.replication_type
@@ -94,7 +114,7 @@ resource "azurerm_private_endpoint" "state" {
 #  count               = var.bootstrap_mode == "true" ? 0 : 1
   name                = "pend-${azurerm_storage_account.sa.name}"
   resource_group_name = azurerm_storage_account.sa.resource_group_name
-  location            = var.resource_group_name
+  location            = azurerm_resource_group.state.location
   subnet_id           = var.private_endpoint_subnet_id
 
   private_service_connection {

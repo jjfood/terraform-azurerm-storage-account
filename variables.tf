@@ -20,6 +20,11 @@ variable "location" {
   type        = string
 }
 
+variable "environment" {
+  type        = string
+  description = "Environment of the storage account."
+}
+
 variable "resource_group_name" {
   description = "name of the resource group to create the resource"
   type        = string
