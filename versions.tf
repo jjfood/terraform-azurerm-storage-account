@@ -10,9 +10,5 @@ terraform {
       source  = "hashicorp/random"
       version = ">= 3.1"
     }
-    azurecaf = {
-      source  = "aztfmod/azurecaf"
-      version = "1.2.23"
-    }
   }
 }
