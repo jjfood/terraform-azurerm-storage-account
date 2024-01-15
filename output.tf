@@ -10,7 +10,7 @@ output "name" {
 }
 
 output "container_name" {
-  value       = azurerm_storage_container.container.name
+  value       = azurerm_storage_container.state.name
   description = "The name of the Storage Account container."
 }
 
