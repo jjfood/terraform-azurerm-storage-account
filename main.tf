@@ -104,6 +104,7 @@ resource "azurerm_storage_account" "sa" {
 }
 
 resource "azurerm_storage_container" "state" {
+  #checkov:skip=CKV2_AZURE_21:Cannot do this until after bootstrap.
   name                  = "tfstate"
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "private"
