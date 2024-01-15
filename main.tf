@@ -103,12 +103,16 @@ resource "azurerm_storage_account" "sa" {
   }
 }
 
-
-resource "azurerm_storage_container" "container" {
-  name                  = (var.name == null ? random_string.random.result : var.container_name)
+resource "azurerm_storage_container" "state" {
+  name                  = "tfstate"
   storage_account_name  = azurerm_storage_account.sa.name
-  container_access_type = var.container_access_type
+  container_access_type = "private"
 }
+#resource "azurerm_storage_container" "container" {
+#  name                  = (var.name == null ? random_string.random.result : var.container_name)
+#  storage_account_name  = azurerm_storage_account.sa.name
+#  container_access_type = var.container_access_type
+#}
 
 resource "azurerm_private_endpoint" "state" {
 #  count               = var.bootstrap_mode == "true" ? 0 : 1
