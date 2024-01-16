@@ -1,3 +1,7 @@
+provider "azurerm" {
+  storage_use_azuread = true
+}
+
 resource "random_string" "random" {
   length  = 24
   special = false
@@ -43,7 +47,7 @@ resource "azurerm_storage_account" "sa" {
   nfsv3_enabled                     = var.nfsv3_enabled
   infrastructure_encryption_enabled = var.infrastructure_encryption_enabled
   shared_access_key_enabled         = var.shared_access_key_enabled
-  public_network_access_enabled     = true
+  public_network_access_enabled     = var.private_endpoint_subnet_id == null ? true : false
 
   identity {
     type = "SystemAssigned"
