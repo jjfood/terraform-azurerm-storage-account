@@ -1,7 +1,3 @@
-provider "azurerm" {
-  storage_use_azuread = true
-}
-
 resource "random_string" "random" {
   length  = 24
   special = false
