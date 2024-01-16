@@ -1,10 +1,14 @@
 terraform {
-  required_version = "~> 1.3"
+  required_version = ">= 1.3.1"
+
+  backend "azurerm" {
+    use_azuread_auth = true
+  }
 
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.0"
+      version = ">= 3.19.0"
     }
     random = {
       source  = "hashicorp/random"
@@ -16,9 +20,3 @@ terraform {
     }
   }
 }
-
-provider "azurerm" {
-  features {}
-  storage_use_azuread = true
-}
-
