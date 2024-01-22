@@ -111,7 +111,7 @@ resource "azurerm_template_deployment" "container" {
   template_body       = file("${path.module}/storage-container.json")
   parameters = {
     storage_account_name = azurerm_storage_account.sa.name
-    container_name       = "tfstate"
+    container_name       = var.container_name
   }
 }
 
