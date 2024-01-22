@@ -95,28 +95,28 @@ resource "azurerm_storage_account" "sa" {
     virtual_network_subnet_ids = values(var.service_endpoints)
     bypass                     = var.traffic_bypass
   }
-#  dynamic "network_rules" {
-#    for_each = var.private_endpoint_subnet_id == null ? [] : [1]
-#    content {
-#      default_action = "Deny"
-#    }
-#  }
+  #  dynamic "network_rules" {
+  #    for_each = var.private_endpoint_subnet_id == null ? [] : [1]
+  #    content {
+  #      default_action = "Deny"
+  #    }
+  #  }
 }
 
-resource "azurerm_storage_container" "state" {
-  #checkov:skip=CKV2_AZURE_21:Cannot do this until after bootstrap.
-  name                  = "tfstate"
-  storage_account_name  = azurerm_storage_account.sa.name
-  container_access_type = "private"
+resource "azurerm_template_deployment" "container" {
+  depends_on          = [azurerm_storage_account.sa]
+  name                = "${azurerm_storage_account.sa.name}-container"
+  resource_group_name = azurerm_resource_group.state.name
+  deployment_mode     = "Incremental"
+  template_body       = file("${path.module}/storage-container.json")
+  parameters = {
+    storage_account_name = azurerm_storage_account.sa.name
+    container_name       = "tfstate"
+  }
 }
-#resource "azurerm_storage_container" "container" {
-#  name                  = (var.name == null ? random_string.random.result : var.container_name)
-#  storage_account_name  = azurerm_storage_account.sa.name
-#  container_access_type = var.container_access_type
-#}
 
 resource "azurerm_private_endpoint" "state" {
-#  count               = var.bootstrap_mode == "true" ? 0 : 1
+  #  count               = var.bootstrap_mode == "true" ? 0 : 1
   name                = "pend-${azurerm_storage_account.sa.name}"
   resource_group_name = azurerm_storage_account.sa.resource_group_name
   location            = azurerm_resource_group.state.location
