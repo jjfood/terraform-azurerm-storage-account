@@ -116,7 +116,7 @@ resource "azurerm_template_deployment" "container" {
 }
 
 resource "azurerm_private_endpoint" "state" {
-  #  count               = var.bootstrap_mode == "true" ? 0 : 1
+  count               = var.private_endpoint_subnet_id == null ? 0 : 1
   name                = "pend-${azurerm_storage_account.sa.name}"
   resource_group_name = azurerm_storage_account.sa.resource_group_name
   location            = azurerm_resource_group.state.location
