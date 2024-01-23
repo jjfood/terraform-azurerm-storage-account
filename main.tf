@@ -89,18 +89,18 @@ resource "azurerm_storage_account" "sa" {
     }
   }
 
-  network_rules {
-    default_action             = var.default_network_rule
-    ip_rules                   = values(var.access_list)
-    virtual_network_subnet_ids = values(var.service_endpoints)
-    bypass                     = var.traffic_bypass
-  }
-  #  dynamic "network_rules" {
-  #    for_each = var.private_endpoint_subnet_id == null ? [] : [1]
-  #    content {
-  #      default_action = "Deny"
-  #    }
-  #  }
+#  network_rules {
+#    default_action             = var.default_network_rule
+#    ip_rules                   = values(var.access_list)
+#    virtual_network_subnet_ids = values(var.service_endpoints)
+#    bypass                     = var.traffic_bypass
+#  }
+    dynamic "network_rules" {
+      for_each = var.private_endpoint_subnet_id == null ? [] : [1]
+      content {
+        default_action = "Deny"
+      }
+    }
 }
 
 resource "azurerm_template_deployment" "container" {
