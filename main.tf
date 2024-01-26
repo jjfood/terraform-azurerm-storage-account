@@ -133,7 +133,7 @@ resource "azurerm_private_endpoint" "state" {
 
   private_dns_zone_group {
     name                 = "example-dns-zone-group"
-    private_dns_zone_ids = [azurerm_private_dns_zone.example.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.example[count.index].id]
   }
 
 
@@ -159,6 +159,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
   count                 = var.private_endpoint_subnet_id == null ? 0 : 1
   name                  = "example-link"
   resource_group_name   = azurerm_resource_group.state.name
-  private_dns_zone_name = azurerm_private_dns_zone.example[count.name]
+  private_dns_zone_name = azurerm_private_dns_zone.example[count.index].name
   virtual_network_id    = var.virtual_network_id
 }
