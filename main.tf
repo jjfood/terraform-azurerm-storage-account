@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "state" {
 }
 
 resource "azurecaf_name" "storage" {
-  name          = "${var.name}state"
+  name          = "${var.name}-state"
   resource_type = "azurerm_storage_account"
   suffixes      = [lower(var.environment)]
   random_length = 4
@@ -155,10 +155,10 @@ resource "azurerm_private_dns_zone" "example" {
 }
 
 
-resource "azurerm_private_dns_zone_virtual_network_link" "example" {
-  count                 = var.private_endpoint_subnet_id == null ? 0 : 1
-  name                  = "example-link"
-  resource_group_name   = azurerm_resource_group.state.name
-  private_dns_zone_name = azurerm_private_dns_zone.example[count.index].name
-  virtual_network_id    = var.virtual_network_id
-}
+# resource "azurerm_private_dns_zone_virtual_network_link" "example" {
+#   count                 = var.private_endpoint_subnet_id == null ? 0 : 1
+#   name                  = "example-link"
+#   resource_group_name   = azurerm_resource_group.state.name
+#   private_dns_zone_name = azurerm_private_dns_zone.example[count.index].name
+#   virtual_network_id    = var.virtual_network_id
+# }
