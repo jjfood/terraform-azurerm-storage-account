@@ -9,10 +9,10 @@ output "name" {
   description = "The name of the Storage Account."
 }
 
-#output "container_name" {
-#  value       = azurerm_storage_container.state.name
-#  description = "The name of the Storage Account container."
-#}
+output "container_name" {
+  value       = var.container_name
+  description = "The name of the Storage Account container."
+}
 
 output "id" {
   value       = azurerm_storage_account.sa.id

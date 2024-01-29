@@ -119,6 +119,12 @@ variable "private_endpoint_subnet_id" {
   default     = null
 }
 
+variable "virtual_network_id" {
+  type        = string
+  description = "virtual network id for the private endpoint."
+  default     = null
+}
+
 variable "traffic_bypass" {
   description = "Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Valid options are any combination of Logging, Metrics, AzureServices, or None."
   type        = list(string)
