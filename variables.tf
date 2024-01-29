@@ -20,6 +20,11 @@ variable "location" {
   type        = string
 }
 
+variable "environment" {
+  type        = string
+  description = "Environment of the storage account."
+}
+
 variable "resource_group_name" {
   description = "name of the resource group to create the resource"
   type        = string
@@ -106,6 +111,18 @@ variable "service_endpoints" {
   description = "Creates a virtual network rule in the subnet_id (values are virtual network subnet ids)."
   type        = map(string)
   default     = {}
+}
+
+variable "private_endpoint_subnet_id" {
+  type        = string
+  description = "Subnet id for the private endpoint."
+  default     = null
+}
+
+variable "virtual_network_id" {
+  type        = string
+  description = "virtual network id for the private endpoint."
+  default     = null
 }
 
 variable "traffic_bypass" {
