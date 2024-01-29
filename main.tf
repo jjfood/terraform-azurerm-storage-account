@@ -154,11 +154,10 @@ resource "azurerm_private_dns_zone" "example" {
   resource_group_name = azurerm_resource_group.state.name
 }
 
-
-# resource "azurerm_private_dns_zone_virtual_network_link" "example" {
-#   count                 = var.private_endpoint_subnet_id == null ? 0 : 1
-#   name                  = "example-link"
-#   resource_group_name   = azurerm_resource_group.state.name
-#   private_dns_zone_name = azurerm_private_dns_zone.example[count.index].name
-#   virtual_network_id    = var.virtual_network_id
-# }
+ resource "azurerm_private_dns_zone_virtual_network_link" "example" {
+   count                 = var.private_endpoint_subnet_id == null ? 0 : 1
+   name                  = "${azurerm_storage_account.sa.name}"
+   resource_group_name   = azurerm_resource_group.state.name
+   private_dns_zone_name = azurerm_private_dns_zone.example[count.index].name
+   virtual_network_id    = var.virtual_network_id
+   }
