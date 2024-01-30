@@ -99,13 +99,15 @@ resource "azurerm_storage_account" "sa" {
       for_each = var.private_endpoint_subnet_id == null ? [] : [1]
       content {
         default_action = "Deny"
-        ip_rules = {
-          type = list
-          description = "Public IPs allowed to view / access storage account contents"
-          default = ["95.149.245.67"]
-        }
+        ip_rules = var.storage_account_public_ip_allow
       }
     }
+}
+
+variable "storage_account_public_ip_allow" {
+  type = list
+  description = "Public IPs allowed to view / access storage account contents"
+  default = ["95.149.245.67"]
 }
 
 resource "azurerm_template_deployment" "container" {
