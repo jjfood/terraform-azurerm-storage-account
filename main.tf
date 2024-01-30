@@ -43,7 +43,7 @@ resource "azurerm_storage_account" "sa" {
   nfsv3_enabled                     = var.nfsv3_enabled
   infrastructure_encryption_enabled = var.infrastructure_encryption_enabled
   shared_access_key_enabled         = var.shared_access_key_enabled
-  public_network_access_enabled     = var.private_endpoint_subnet_id == null ? true : false
+#  public_network_access_enabled     = var.private_endpoint_subnet_id == null ? true : false
 
   identity {
     type = "SystemAssigned"
@@ -89,18 +89,18 @@ resource "azurerm_storage_account" "sa" {
     }
   }
 
-  network_rules {
-    default_action             = var.default_network_rule
-    ip_rules                   = values(var.access_list)
-    virtual_network_subnet_ids = values(var.service_endpoints)
-    bypass                     = var.traffic_bypass
-  }
-#    dynamic "network_rules" {
-#      for_each = var.private_endpoint_subnet_id == null ? [] : [1]
-#      content {
-#        default_action = "Deny"
-#      }
-#    }
+#  network_rules {
+#    default_action             = var.default_network_rule
+#    ip_rules                   = values(var.access_list)
+#    virtual_network_subnet_ids = values(var.service_endpoints)
+#    bypass                     = var.traffic_bypass
+#  }
+    dynamic "network_rules" {
+      for_each = var.private_endpoint_subnet_id == null ? [] : [1]
+      content {
+        default_action = "Deny"
+      }
+    }
 }
 
 resource "azurerm_template_deployment" "container" {
@@ -160,4 +160,4 @@ resource "azurerm_private_dns_zone" "example" {
    resource_group_name   = azurerm_resource_group.state.name
    private_dns_zone_name = azurerm_private_dns_zone.example[count.index].name
    virtual_network_id    = var.virtual_network_id
-   }
+}
