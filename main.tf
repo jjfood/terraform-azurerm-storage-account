@@ -100,6 +100,7 @@ resource "azurerm_storage_account" "sa" {
       content {
         default_action = "Deny"
         ip_rules = var.storage_account_public_ip_allow
+        virtual_network_subnet_ids = [var.private_endpoint_subnet_id]
       }
     }
 }
