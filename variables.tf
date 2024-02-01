@@ -119,6 +119,12 @@ variable "private_endpoint_subnet_id" {
   default     = null
 }
 
+variable "private_endpoint_subnet_id2" {
+  type        = string
+  description = "Subnet id for the private endpoint."
+  default     = null
+}
+
 variable "virtual_network_id" {
   type        = string
   description = "virtual network id for the private endpoint."
