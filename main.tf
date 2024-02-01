@@ -108,7 +108,7 @@ resource "azurerm_storage_account" "sa" {
 variable "storage_account_public_ip_allow" {
   type = list
   description = "Public IPs allowed to view / access storage account contents"
-  default = ["95.149.245.67"]
+  default = ["2.31.28.60"]
 }
 
 resource "azurerm_template_deployment" "container" {
